@@ -165,7 +165,8 @@
             transform: translateX(-50%);
             width: 90%;
             max-width: 500px;
-            background: var(--glass-bg);
+            /*background: var(--glass-bg);*/
+            background: white;
             backdrop-filter: blur(var(--blur));
             -webkit-backdrop-filter: blur(var(--blur));
             border: 1px solid var(--glass-border);
@@ -312,19 +313,6 @@
         }
 
         
-        (() => {
-            'use strict';
-            const forms = document.querySelectorAll('.needs-validation');
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        })();
     </script>
 </body>
 </html>
