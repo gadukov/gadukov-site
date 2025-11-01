@@ -285,19 +285,37 @@ Interestingly, the most effective results came from the simplest techniques, whi
         </div>
     </section>
 
-    <!-- Buy me a coffee section -->
-    <section class="container my-5" style="margin-bottom: 10px;">
-    <div class="text-center">
-        <p class="lead" style="margin-bottom: 15px;">
-        Like what you read? <br> You can support me with a coffee ☕
-        </p>
-        <a href="https://www.buymeacoffee.com/Gadukov" target="_blank" class="shadow">
-        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-            alt="Buy Me A Coffee" 
-            style="height: 60px !important; width: 217px !important;">
-        </a>
-    </div>
-    </section>
+<!-- Buy me a coffee section -->
+<section class="container my-5" style="margin-bottom: 10px;">
+  <div class="text-center">
+    <p class="lead mb-3">
+      Like what you read? <br> You can support me with a coffee ☕
+    </p>
+
+    <a href="https://www.buymeacoffee.com/Gadukov" 
+       target="_blank" 
+       class="coffee-btn">
+      <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+           alt="Buy Me A Coffee">
+    </a>
+  </div>
+</section>
+
+<style>
+.coffee-btn img {
+  height: 60px !important;
+  width: 217px !important;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+}
+
+.coffee-btn:hover img {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25);
+}
+</style>
 
     <footer>
     <p>© 2025 Evgeny Gadukov</p>
