@@ -1,495 +1,154 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Evgeny Gadukov</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Evgeny Gadukov</title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --blur: 12px;
-            --text: #1d1d1f;
-            --accent: #0071e3;
-        }
-
-        /* Top banner (visible) */
-        #top-banner {
-            background-color: #ffdd57;
-            color: #111;
-            text-align: center;
-            padding: 0.6rem 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.4px;
-            position: sticky;
-            top: 0;
-            z-index: 1100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            color: var(--text);
-            min-height: 100vh;
-            margin: 0;
-            padding: 0 12px 40px;
-            overflow-x: hidden;
-        }
-
-        /* Navbar */
-        .navbar {
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-            border-radius: 12px;
-        }
-        .navbar-brand { font-weight: 700; color: black;}
-        .nav-link { color: #333 !important; font-weight: 500; }
-        .nav-link:hover { color: var(--accent) !important; }
-
-        .container-custom { max-width: 980px; margin: 0 auto; }
-
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur));
-            -webkit-backdrop-filter: blur(var(--blur));
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            transition: all 0.25s ease;
-        }
-        .glass-card:hover { transform: translateY(-4px); }
-
-        header {
-            padding: 2.5rem 0;
-            position: relative;
-        }
-
-        /* Book layout */
-        .book-cover {
-            position: relative;
-            max-width: 360px;
-            margin: 0 auto;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .book-cover img { width: 100%; height: auto; display: block; }
-        .book-cover::after {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(45deg, rgba(0,113,227,0.06), rgba(255,255,255,0.08));
-            pointer-events: none;
-        }
-
-        .btn-apple {
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 0.55rem 1rem;
-            font-weight: 600;
-            transition: transform .15s ease, box-shadow .15s ease;
-            box-shadow: 0 6px 18px rgba(0,113,227,0.15);
-            display: inline-block;
-            white-space: nowrap;
-        }
-        .btn-apple:hover { transform: translateY(-3px); background: #0060c0; }
-
-        .btn-outline-apple {
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            background: transparent;
-            border-radius: 12px;
-            padding: 0.55rem 1rem;
-            font-weight: 600;
-            display: inline-block;
-            white-space: nowrap;
-        }
-        .btn-outline-apple:hover { background: rgba(0,113,227,0.06); }
-
-        /* Compact buy buttons on desktop, full-width on mobile */
-        .buy-buttons { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .buy-buttons .btn {
-            min-width: 170px;          /* компактная ширина на десктопе */
-            text-align: center;
-        }
-        @media (max-width: 576px) {
-            .buy-buttons .btn { min-width: 100%; width: 100%; }
-            .book-cover { max-width: 260px; }
-        }
-
-        .book-description { font-size: 1.05rem; line-height: 1.6; color: rgba(29,29,31,0.95); }
-
-        /* Cookie banner */
-        #cookie-banner {
-            position: fixed;
-            bottom: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 520px;
-            background: white;
-            backdrop-filter: blur(var(--blur));
-            -webkit-backdrop-filter: blur(var(--blur));
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1rem 1.25rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
-            z-index: 1050;
-            display: none;
-            text-align: center;
-            font-size: 0.95rem;
-        }
-        #cookie-banner button { font-size: 0.9rem; padding: 0.45rem 0.9rem; margin: 0.25rem; border-radius: 10px; }
-
-        /* Buymeacoffee styling */
-        .coffee-btn img {
-            height: 60px !important;
-            width: 217px !important;
-            border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-            transition: all 0.25s ease-in-out;
-            cursor: pointer;
-        }
-        .coffee-btn:hover img { transform: translateY(-4px) scale(1.03); box-shadow: 0 15px 25px rgba(0,0,0,0.22); }
-
-        footer { padding: 20px 0; text-align: center; color: #666; }
-        .visitor-badge { height: 16px; opacity: 0.3; filter: grayscale(100%); margin-left: 5px; vertical-align: middle; }
-
-        .mr30 {
-            margin-top: 30px;
-            margin-bottom: 45px;
-        }
-
-    </style>
+  <!-- Preload and main style -->
+  <link rel="preload" href="css/style.css" as="style">
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top mt-3 mb-3">
+    <div class="container container-custom">
+      <a class="navbar-brand" href="#">Evgeny Gadukov</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#books">Books</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Top banner -->
-     <!--
-    <div id="top-banner">🚧 Site Under Construction — thank you for visiting! 🚧</div> -->
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg sticky-top mt-3 mb-3" aria-label="Main navigation">
-      <div class="container container-custom">
-        <a class="navbar-brand" href="#">Evgeny Gadukov</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="#books">Books</a></li>
-            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-          </ul>
+  <!-- Books Section -->
+  <header class="container-custom mx-auto" id="books">
+    <section class="book-section">
+      <div class="row align-items-center">
+        <div class="col-md-5 text-center mb-4 mb-md-0">
+          <div class="book-cover">
+            <img src="img/book.png" alt="Book cover" class="img-fluid">
+          </div>
+        </div>
+        <div class="col-md-7">
+          <h1 style="margin-bottom: 18px; font-weight:700;">Silent Enemy: How to Overcome Depression</h1>
+          <h5 style="margin-bottom: 18px; font-weight:350;">2025</h5>
+          <div class="book-description mb-3">
+            <p class="lead">
+              In this book, I have collected techniques and methods that helped me in my personal battle with depression...
+            </p>
+          </div>
+          <div class="buy-buttons mt-2">
+            <a href="https://www.amazon.com/Silent-Enemy-How-Overcome-Depression/dp/B0FZ6KBMKP" target="_blank" class="btn btn-apple">Buy Paperback</a>
+            <a href="https://www.amazon.com/dp/B0FZ5Z3FCG" target="_blank" class="btn btn-outline-apple">Buy E-book</a>
+          </div>
         </div>
       </div>
-    </nav>
 
-    <!-- Main header / book block -->
-     
-    <header class="container-custom mx-auto">
-        <section id="books" class="book-section">
+      <hr style="margin-top: 45px;">
 
-          <!-- Book 1 -->
-            <div class="row align-items-center">
-                <!-- cover left on md+ -->
-                <div class="col-md-5 text-center mb-4 mb-md-0">
-                    <div class="book-cover">
-                        <img src="img/book.png" alt="Book cover" class="img-fluid">
-                    </div>
-                </div>
+      <div class="row align-items-center" style="margin-top: 45px;">
+        <div class="col-md-5 text-center mb-4 mb-md-0">
+          <div class="book-cover">
+            <img src="img/book2.png" alt="Book cover" class="img-fluid">
+          </div>
+        </div>
+        <div class="col-md-7">
+          <h1 style="margin-bottom: 18px; font-weight:700;">Hey! Where’s My Energy?</h1>
+          <h3 style="margin-bottom: 18px; font-weight:700;">Expected release: early 2026</h3>
+          <p class="lead">
+            The world today moves at a relentless pace... burnout, fatigue, loss of motivation.
+          </p>
+        </div>
+      </div>
+    </section>
+  </header>
 
-                <!-- description right on md+ -->
-                <div class="col-md-7">
-                    <h1 style="margin-bottom: 18px; font-weight:700;">Silent Enemy: How to Overcome Depression</h1>
-                    <h5 style="margin-bottom: 18px; font-weight:350;">2025</h5>
-
-                    <div class="book-description mb-3">
-                                <p class="lead">
-            In this book, I have collected techniques and methods that helped me in my personal battle with depression. I can say that they are universal because they have undergone a strict selection among many approaches I am familiar with. In the end, only truly effective techniques and methods remain.
-Interestingly, the most effective results came from the simplest techniques, which do not require any special knowledge or training.
-</p>
-        <p class="lead">
-            I tried to write this book as honestly as possible — without sugarcoating, in simple language, and without complex scientific terms, so that you can focus not on theory, but on the tools themselves that really help.</p>
-        </p>
-                    </div>
-
-                    <div class="buy-buttons mt-2">
-                        <a href="https://www.amazon.com/Silent-Enemy-How-Overcome-Depression/dp/B0FZ6KBMKP" target="_blank" class="btn btn-apple">Buy Paperback on Amazon</a>
-                        <a href="https://www.amazon.com/dp/B0FZ5Z3FCG" target="_blank" class="btn btn-outline-apple">Buy E-book on Amazon</a>
-                    </div>
-                </div>
-            </div>
-
-            <hr style="margin-top: 45px;">
-
-            <!-- Book 2 -->
-            <div class="row align-items-center" style="margin-top: 45px;">
-                <!-- cover left on md+ -->
-                <div class="col-md-5 text-center mb-4 mb-md-0">
-                    <div class="book-cover">
-                        <img src="img/book2.png" alt="Book cover" class="img-fluid">
-                    </div>
-                </div>
-
-                <!-- description right on md+ -->
-                <div class="col-md-7">
-                    <h1 style="margin-bottom: 18px; font-weight:700;">Hey! Where’s My Energy?</h1>
-
-                    <h3 style="margin-bottom: 18px; font-weight:700;">The book is currently in progress — expected release: early 2026.</h3>
-
-
-                    <div class="book-description mb-3">
-                                <p class="lead">
-The world today moves at a relentless pace. Events replace one another in an instant, and we try to keep up — but most of the time, it’s impossible. The amount of work, information, and expectations has long exceeded our physical and emotional limits. The result is burnout, fatigue, loss of motivation, and the feeling that each day is lived on autopilot.
-</p>
-        <p class="lead">
-In this book, I share the methods I’ve tested myself — daily practices and simple techniques that truly work. My goal is to help you see where your energy is being wasted and to learn how to recharge, so each day can be lived with vitality and inner balance, not constant exhaustion.
-</p>
-
-                    </div>
-
-                    <!--
-                    <div class="buy-buttons mt-2">
-                        <a href="https://www.amazon.com/Silent-Enemy-How-Overcome-Depression/dp/B0FZ6KBMKP" target="_blank" class="btn btn-apple">Buy Paperback on Amazon</a>
-                        <a href="https://www.amazon.com/dp/B0FZ5Z3FCG" target="_blank" class="btn btn-outline-apple">Buy E-book on Amazon</a>
-                    </div> -->
-                </div>
-            </div>
-          
-
-        </section>
-    </header>
-
-    <!-- About / Author -->
-
-
-<section id="about" class="glass-card container-custom mx-auto my-4 fade-section">
+  <!-- About -->
+  <section id="about" class="glass-card container-custom mx-auto my-4 fade-section">
     <h2 class="text-center mb-4" style="font-weight: 600;">About the Author</h2>
     <div class="row align-items-center justify-content-center">
-      
-        <div class="col-md-4 text-center mb-4 mb-md-0">
-            <img src="img/profilePhoto.jpeg"  
-                 alt="Author photo" 
-                 class="img-fluid rounded-circle shadow-sm author-photo">
-        </div>
-
-        <div class="col-md-8 text-center text-md-start">
-            <p class="lead">My name is Evgeny Gadukov, and I live and work in the Netherlands. 
-            I received my psychology education at college and university, where I studied developmental psychology, higher nervous activity, group psychology, and psychophysiology. In addition to academic training, I focused on practical areas — neuro-linguistic programming, as well as courses and workshops on psychology, personal effectiveness, and self-development.</p>
-        </div>
-
-    </div>
-</section>
-
-<style>
-    .author-photo {
-        width: 250px;
-        height: 250px;
-        object-fit: cover;
-        border: 5px solid #fff; /* рамка */
-        box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* тень */
-        margin: 0 auto; /* центрирование на мобилках */
-        display: block;
-    }
-
-    @media (max-width: 767px) {
-        .col-md-8 {
-            text-align: center; /* текст по центру на мобильных */
-        }
-    }
-</style>
-
-
-    <!-- Buy me a coffee -->
-    <section class="container my-4 container-custom">
-      <div class="text-center mr30">
-        <p class="lead mb-3">Like what you read? <br> You can support me with a coffee ☕</p>
-
-        <a href="https://www.buymeacoffee.com/Gadukov" target="_blank" class="coffee-btn">
-          <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee">
-        </a>
+      <div class="col-md-4 text-center mb-4 mb-md-0">
+        <img src="img/profilePhoto.jpeg" alt="Author photo" class="img-fluid rounded-circle shadow-sm author-photo">
       </div>
-    </section>
-
-
-    <!-- Contact -->
-    <section id="contact" class="container-custom mx-auto my-4">
-        <div class="glass-card">
-            <h2 class="text-center mb-4" style="font-weight: 600;">Contact</h2>
-            <form action="https://formsubmit.co/gadukovinfo@proton.me" method="POST">
-                <input type="hidden" name="_subject" value="New message from website">
-                <input type="hidden" name="_captcha" value="true">
-
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" name="name" id="name" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea class="form-control" name="message" id="message" rows="4" required></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-apple w-100">Send</button>
-            </form>
-        </div>
-    </section>
-
-
-
-    <!-- Cookie banner -->
-    <div id="cookie-banner">
-        <p class="mb-2">We use cookies to improve your experience.</p>
-        <button onclick="acceptCookies()" class="btn btn-apple btn-sm">Accept</button>
-        <button onclick="declineCookies()" class="btn btn-outline-apple btn-sm">Decline</button>
-    </div>
-
-    <!-- Footer -->
-    <footer class="container-custom mx-auto">
-        <p>© 2025 Evgeny Gadukov
-            <img class="visitor-badge" src="https://visitor-badge.laobi.icu/badge?page_id=gadukov.gadukov-site&style=flat&badge_color=eeeeee&label_color=eeeeee&text_color=888888" alt="views">
+      <div class="col-md-8 text-center text-md-start">
+        <p class="lead">
+          My name is Evgeny Gadukov, and I live and work in the Netherlands...
         </p>
-    </footer>
+      </div>
+    </div>
+  </section>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Coffee -->
+  <section class="container my-4 container-custom">
+    <div class="text-center">
+      <p class="lead mb-3">Like what you read?<br>Support me with a coffee ☕</p>
+      <a href="https://www.buymeacoffee.com/Gadukov" target="_blank">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee">
+      </a>
+    </div>
+  </section>
 
-    <script>
-        // Cookie banner logic
-        window.addEventListener('load', () => {
-            if (!localStorage.getItem('cookiesAccepted')) {
-                document.getElementById('cookie-banner').style.display = 'block';
-            }
-        });
+  <!-- Contact -->
+  <section id="contact" class="container-custom mx-auto my-4">
+    <div class="glass-card">
+      <h2 class="text-center mb-4" style="font-weight: 600;">Contact</h2>
+      <form action="https://formsubmit.co/gadukovinfo@proton.me" method="POST">
+        <input type="hidden" name="_subject" value="New message from website">
+        <input type="hidden" name="_captcha" value="true">
 
-        function acceptCookies() {
-            localStorage.setItem('cookiesAccepted', 'true');
-            document.getElementById('cookie-banner').style.display = 'none';
-            // включить аналитику если нужно
-        }
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" name="name" id="name" required>
+        </div>
 
-        function declineCookies() {
-            localStorage.setItem('cookiesAccepted', 'false');
-            document.getElementById('cookie-banner').style.display = 'none';
-            // отключить аналитику
-        }
-    </script>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" name="email" id="email" required>
+        </div>
 
-<!-- Back to Top Button -->
-<button id="backToTop" class="btn btn-apple shadow-sm">↑ Top</button>
+        <div class="mb-3">
+          <label for="message" class="form-label">Message</label>
+          <textarea class="form-control" name="message" id="message" rows="4" required></textarea>
+        </div>
 
-<style>
-  /* Кнопка "Back to Top" */
-  #backToTop {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    border-radius: 50px;
-    padding: 10px 18px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
-    z-index: 1055; /* выше всего */
-    backdrop-filter: blur(12px);
-  }
+        <button type="submit" class="btn btn-apple w-100">Send</button>
+      </form>
+    </div>
+  </section>
 
-  #backToTop.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
+  <!-- Cookie Banner -->
+  <div id="cookie-banner">
+    <p class="mb-2">We use cookies to improve your experience.</p>
+    <button onclick="acceptCookies()" class="btn btn-apple btn-sm">Accept</button>
+    <button onclick="declineCookies()" class="btn btn-outline-apple btn-sm">Decline</button>
+  </div>
 
-  #backToTop:hover {
-    transform: translateY(-4px);
-  }
+  <!-- Footer -->
+  <footer class="container-custom mx-auto">
+    <p>© 2025 Evgeny Gadukov
+      <img class="visitor-badge" src="https://visitor-badge.laobi.icu/badge?page_id=gadukov.gadukov-site&style=flat&badge_color=eeeeee&label_color=eeeeee&text_color=888888" alt="views">
+    </p>
+  </footer>
 
-  /* Анимация появления секций */
-  .fade-section {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease;
-  }
+  <!-- Back to Top -->
+  <button id="backToTop" class="btn btn-apple shadow-sm">↑ Top</button>
 
-  .fade-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
-
-<script>
-  // Плавная прокрутка по якорям с учётом высоты навбара
-  document.querySelectorAll('a.nav-link[href^="#"]').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-
-      const target = document.querySelector(this.getAttribute('href'));
-      if (!target) return;
-
-      const navbar = document.querySelector('.navbar');
-      const navbarHeight = navbar ? navbar.offsetHeight : 0;
-      const elementPosition = target.offsetTop;
-      const offsetPosition = elementPosition - navbarHeight + 5;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-
-      // 🔹 Закрываем мобильное меню после клика
-      const navbarCollapse = document.querySelector('.navbar-collapse');
-      if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
-        if (bsCollapse) bsCollapse.hide();
-      }
-    });
-  });
-
-  // Кнопка "Back to Top"
-  const backToTop = document.getElementById('backToTop');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-      backToTop.classList.add('show');
-    } else {
-      backToTop.classList.remove('show');
-    }
-  });
-
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  // Анимация появления секций
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.2 });
-
-  document.querySelectorAll('.fade-section').forEach(section => {
-    observer.observe(section);
-  });
-</script>
-
+  <!-- JS (Bootstrap + custom) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script src="js/script.js" defer></script>
 </body>
 </html>
-
