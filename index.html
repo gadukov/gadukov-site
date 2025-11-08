@@ -274,24 +274,41 @@ In this book, I share the methods I’ve tested myself — daily practices and s
     <!-- About / Author -->
 
 
-    <section id="about" class="glass-card container-custom mx-auto my-4">
-        <h2 class="text-center mb-4" style="font-weight: 600;">About the Author</h2>
-        <div class="row align-items-center">
-
-    
-      <div class="col-md-4 text-center mb-4 mb-md-0">
-        <img src="img/profilePhoto.jpeg"  
-            alt="Author photo" 
-            class="img-fluid rounded-circle shadow-sm"
-            style="object-fit: cover; width: 250px; height: 250px;">
-      </div>
-
-            <div class="col-md-12 text-center px-0">
-                <p class="lead">My name is Evgeny Gadukov, and I live and work in the Netherlands. 
-            I received my psychology education at college and university, where I studied developmental psychology, higher nervous activity, group psychology, and psychophysiology. In addition to academic training, I focused on practical areas — neuro-linguistic programming, as well as courses and workshops on psychology, personal effectiveness, and self-development.</p>
-            </div>
+<section id="about" class="glass-card container-custom mx-auto my-4 fade-section">
+    <h2 class="text-center mb-4" style="font-weight: 600;">About the Author</h2>
+    <div class="row align-items-center justify-content-center">
+      
+        <div class="col-md-4 text-center mb-4 mb-md-0">
+            <img src="img/profilePhoto.jpeg"  
+                 alt="Author photo" 
+                 class="img-fluid rounded-circle shadow-sm author-photo">
         </div>
-    </section>
+
+        <div class="col-md-8 text-center text-md-start">
+            <p class="lead">My name is Evgeny Gadukov, and I live and work in the Netherlands. 
+            I received my psychology education at college and university, where I studied developmental psychology, higher nervous activity, group psychology, and psychophysiology. In addition to academic training, I focused on practical areas — neuro-linguistic programming, as well as courses and workshops on psychology, personal effectiveness, and self-development.</p>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    .author-photo {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        border: 5px solid #fff; /* рамка */
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* тень */
+        margin: 0 auto; /* центрирование на мобилках */
+        display: block;
+    }
+
+    @media (max-width: 767px) {
+        .col-md-8 {
+            text-align: center; /* текст по центру на мобильных */
+        }
+    }
+</style>
 
 
     <!-- Buy me a coffee -->
