@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>John // Matrix Developer</title>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: #000;
+        color: #00ff66;
+        font-family: 'Courier New', monospace;
+        overflow: hidden;
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    .content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(2px);
+        padding: 40px;
+    }
+
+    h1, h2, p, ul, footer {
+        opacity: 0;
+    }
+
+    h1 {
+        font-size: 2.8rem;
+        margin-bottom: 10px;
+        text-shadow: 0 0 20px #00ff66;
+    }
+
+    h2 {
+        font-weight: normal;
+        font-size: 1rem;
+        opacity: 0.8;
+        margin-bottom: 40px;
+    }
+
+    p, li {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li::before {
+        content: "> ";
+        color: #00ff66;
+    }
+
+    a {
+        color: #00ff66;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    footer {
+        margin-top: 40px;
+        opacity: 0.6;
+        font-size: 0.9rem;
+    }
+
+    .cursor {
+        display: inline-block;
+        width: 8px;
+        height: 1em;
+        background-color: #00ff66;
+        margin-left: 4px;
+        animation: blink 1s step-start infinite;
+        vertical-align: bottom;
+    }
+
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+
+<div class="content">
+    <h1 id="title">JOHN</h1>
+    <h2 id="subtitle">Software Developer // SOC Analyst</h2>
+
+    <p id="intro">Wake up, developer... The code has you.<span class="cursor"></span></p>
+
+    <ul id="skills">
+        <li>Python, Django, Swift</li>
+        <li>Security Operations & Automation</li>
+        <li>Retro aesthetics & clean code</li>
+    </ul>
+
+    <p id="contact">Contact: <a href="mailto:john@example.com">john@example.com</a></p>
+    <footer id="footer">© 2025 John — Welcome to the System</footer>
+</div>
+
+<script>
+    // ==== MATRIX BACKGROUND ====
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const letters = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const matrix = letters.split('');
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#00ff66';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = matrix[Math.floor(Math.random() * matrix.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+                drops[i] = 0;
+            drops[i]++;
+        }
+    }
+
+    setInterval(draw, 35);
+
+    // ==== TEXT TYPING EFFECT ====
+    function typeText(element, text, delay = 50, callback) {
+        element.textContent = '';
+        let i = 0;
+        const interval = setInterval(() => {
+            element.textContent += text.charAt(i);
+            i++;
+            if (i >= text.length) {
+                clearInterval(interval);
+                if (callback) callback();
+            }
+        }, delay);
+    }
+
+    window.onload = () => {
+        const title = document.getElementById('title');
+        const subtitle = document.getElementById('subtitle');
+        const intro = document.getElementById('intro');
+        const skills = document.getElementById('skills');
+        const contact = document.getElementById('contact');
+        const footer = document.getElementById('footer');
+
+        // последовательно "печатаем" всё
+        typeText(title, 'JOHN', 100, () => {
+            title.style.opacity = 1;
+            setTimeout(() => {
+                typeText(subtitle, 'Software Developer // SOC Analyst', 40, () => {
+                    subtitle.style.opacity = 1;
+                    setTimeout(() => {
+                        intro.style.opacity = 1;
+                        setTimeout(() => {
+                            skills.style.opacity = 1;
+                            contact.style.opacity = 1;
+                            footer.style.opacity = 1;
+                        }, 800);
+                    }, 400);
+                });
+            }, 300);
+        });
+    };
+</script>
+</body>
+</html>
