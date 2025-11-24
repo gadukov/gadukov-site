@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EG</title>
+<title>EGD</title>
 <style>
 html, body {
     margin: 0;
@@ -130,11 +130,11 @@ window.onload = ()=>{
     const contact = document.getElementById('contact');
     const footer = document.getElementById('footer');
 
-    // создаём курсор один раз
+    // create cursor
     const finalCursor = document.createElement('span');
     finalCursor.className = 'cursor';
 
-    typeText(title,'EG',100,()=>{
+    typeText(title,'EGD',100,()=>{
         typeText(subtitle,'Developer',60,()=>{
             typeText(intro,'Wake up... The code has you.',40,()=>{
                 const skillList = ['Python, Django, Swift...','HTML, CSS, Java...'];
@@ -151,8 +151,8 @@ window.onload = ()=>{
                         });
                     } else {
                         setTimeout(()=>{
-                            typeText(contact,'Contact: evgeny@gadukov.nl',40,()=>{
-                                typeText(footer,'© 2025 Gadukov',40,()=>{
+                            typeText(contact,'Contact: info@gadukov.nl',40,()=>{
+                                typeText(footer,'© 2025 EGD',40,()=>{
                                     // Вставляем один курсор после завершения всего текста
                                     footer.appendChild(finalCursor);
                                 });
