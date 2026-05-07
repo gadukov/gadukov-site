@@ -22,7 +22,7 @@
         z-index: 1;
     }
 
-    /* Эффект сканирующей линии */
+    /* Линия сканирования (ЭЛТ эффект) */
     body::after {
         content: " ";
         position: fixed;
@@ -55,11 +55,11 @@
 
     h1, h2, p, ul, footer, #link-container {
         opacity: 0;
-        margin: 8px 0;
+        margin: 10px 0;
     }
 
     h1 { font-size: 3rem; text-shadow: 0 0 15px #00ff66; margin-bottom: 0; }
-    h2 { font-size: 1.1rem; color: rgba(0, 255, 102, 0.6); margin-top: 0; }
+    h2 { font-size: 1.1rem; color: rgba(0, 255, 102, 0.6); margin-top: 5px; margin-bottom: 30px; }
     ul { list-style: none; padding: 0; }
     li::before { content: "> "; }
 
@@ -67,15 +67,14 @@
         color: #00ff66; 
         text-decoration: none; 
         border: 1px solid #00ff66;
-        padding: 8px 15px;
-        transition: all 0.4s ease;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
         display: inline-block;
-        margin: 15px 0;
+        margin: 20px 0;
         text-transform: uppercase;
         letter-spacing: 2px;
     }
     
-    /* Прикольный эффект наведения — красный "алерт" */
     #demo-link:hover { 
         background: #ff0033; 
         color: #fff; 
@@ -106,7 +105,6 @@
     <p id="intro"></p>
     <div id="link-container"><a id="demo-link" href="https://demo.gadukov.nl" target="_blank"></a></div>
     <ul id="skills"></ul>
-    <p id="phrase"></p>
     <footer id="footer"></footer>
 </div>
 
@@ -143,8 +141,8 @@ setInterval(drawMatrix, 40);
 
 function type(el, text, speed, callback) {
     el.style.opacity = 1;
+    el.textContent = ''; 
     let i = 0;
-    el.textContent = ''; // Очистка перед началом
     const timer = setInterval(() => {
         el.textContent += text.charAt(i);
         i++;
@@ -162,15 +160,15 @@ window.onload = () => {
     const linkContainer = document.getElementById('link-container');
     const link = document.getElementById('demo-link');
     const skills = document.getElementById('skills');
-    const phrase = document.getElementById('phrase');
     const footer = document.getElementById('footer');
 
-    type(title, 'EGD', 120, () => {
-        type(subtitle, 'Developer & Explorer', 60, () => {
+    type(title, 'EGD', 100, () => {
+        type(subtitle, 'Developer & System Architect', 60, () => {
+            // ВОТ ОНО!
             type(intro, 'Wake up... The code has you.', 50, () => {
                 setTimeout(() => {
                     linkContainer.style.opacity = 1;
-                    type(link, 'ACCESS DEMO SITE', 50, () => {
+                    type(link, 'HTTPS://DEMO.GADUKOV.NL', 50, () => {
                         skills.style.opacity = 1;
                         const items = ['Python, Django, Swift...', 'HTML, CSS, Java...'];
                         let current = 0;
@@ -193,7 +191,7 @@ window.onload = () => {
                         }
                         nextSkill();
                     });
-                }, 500);
+                }, 600);
             });
         });
     });
