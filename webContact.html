@@ -141,6 +141,8 @@ window.onload = ()=>{
                 skills.style.opacity = 1;
                 let index = 0;
 
+                typeText(intro,'https://demo.gadukov.nl',40,()=>{
+                    
                 function printNextSkill(){
                     if(index<skillList.length){
                         const li = document.createElement('li');
@@ -152,7 +154,7 @@ window.onload = ()=>{
                     } else {
                         setTimeout(()=>{
                             typeText(contact,'>>>>>>>',40,()=>{
-                                typeText(footer,'© 2026 EGD https://demo.gadukov.nl',40,()=>{
+                                typeText(footer,'© 2026 EGD ,40,()=>{
                                     // add cursor
                                     footer.appendChild(finalCursor);
                                 });
