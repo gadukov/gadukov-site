@@ -5,63 +5,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EGD</title>
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background-color: #000;
-    color: #00ff66;
-    font-family: 'Courier New', monospace;
-    overflow: hidden;
-}
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: #000;
+        color: #00ff66;
+        font-family: 'Courier New', monospace;
+        overflow: hidden;
+    }
 
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
 
-.content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(2px);
-    padding: 30px;
-}
+    /* Эффект старого монитора (сканирующая линия) */
+    body::after {
+        content: " ";
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 2px;
+        background: rgba(0, 255, 102, 0.15);
+        opacity: 0.5;
+        z-index: 10;
+        pointer-events: none;
+        animation: scanline 6s linear infinite;
+    }
 
-h1, h2, p, ul, footer {
-    opacity: 0;
-}
+    @keyframes scanline {
+        0% { top: -10%; }
+        100% { top: 110%; }
+    }
 
-h1 { font-size: 2.8rem; margin-bottom: 10px; text-shadow: 0 0 20px #00ff66; }
-h2 { font-weight: normal; font-size: 1rem; opacity: 0.8; margin-bottom: 40px; }
-p, li { font-size: 1rem; line-height: 1.6; }
-ul { list-style: none; padding: 0; margin: 20px 0; }
-li::before { content: "> "; color: #00ff66; }
-a { color: #00ff66; text-decoration: none; }
-a:hover { text-decoration: underline; }
-footer { margin-top: 40px; opacity: 0.6; font-size: 0.9rem; }
+    .content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(2px);
+        padding: 30px;
+    }
 
-.cursor {
-    display: inline-block;
-    width: 8px;
-    height: 1em;
-    background-color: #00ff66;
-    margin-left: 3px;
-    animation: blink 1s step-start infinite;
-    vertical-align: middle;
-}
+    h1, h2, p, ul, footer {
+        opacity: 0;
+    }
 
-@keyframes blink {
-    50% { opacity: 0; }
-}
+    h1 { font-size: 2.8rem; margin-bottom: 10px; text-shadow: 0 0 20px #00ff66; }
+    h2 { font-weight: normal; font-size: 1rem; opacity: 0.8; margin-bottom: 40px; }
+    p, li { font-size: 1rem; line-height: 1.6; }
+    ul { list-style: none; padding: 0; margin: 20px 0; }
+    li::before { content: "> "; color: #00ff66; }
+    
+    a { 
+        color: #00ff66; 
+        text-decoration: none; 
+        border-bottom: 1px dashed #00ff66;
+        transition: all 0.3s;
+    }
+    a:hover { 
+        background: #00ff66; 
+        color: #000; 
+        text-shadow: none;
+    }
+
+    footer { margin-top: 40px; opacity: 0.6; font-size: 0.9rem; }
+
+    .cursor {
+        display: inline-block;
+        width: 8px;
+        height: 1em;
+        background-color: #00ff66;
+        margin-left: 3px;
+        animation: blink 1s step-start infinite;
+        vertical-align: middle;
+    }
+
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
 </style>
 </head>
 <body>
@@ -109,7 +138,6 @@ setInterval(draw,35);
 
 // ==== TEXT TYPING ====
 function typeText(element, text, delay=50, callback){
-    element.textContent = '';
     element.style.opacity = 1;
     let i=0;
     const interval = setInterval(()=>{
@@ -130,39 +158,44 @@ window.onload = ()=>{
     const contact = document.getElementById('contact');
     const footer = document.getElementById('footer');
 
-    // create cursor
     const finalCursor = document.createElement('span');
     finalCursor.className = 'cursor';
 
-    typeText(title,'EGD',100,()=>{
-        typeText(subtitle,'Developer',60,()=>{
-            typeText(intro,'Wake up... The code has you.',40,()=>{
-                const skillList = ['Python, Django, Swift...','HTML, CSS, Java...'];
-                skills.style.opacity = 1;
-                let index = 0;
+    typeText(title, 'EGD', 100, () => {
+        typeText(subtitle, 'Developer', 60, () => {
+            // Исправленная логика ссылки: сначала печатаем префикс, потом создаем <a>
+            typeText(intro, 'Wake up... ', 40, () => {
+                const link = document.createElement('a');
+                link.href = 'https://demo.gadukov.nl';
+                link.target = '_blank';
+                intro.appendChild(link);
+                
+                typeText(link, 'https://demo.gadukov.nl', 40, () => {
+                    const skillList = ['Python, Django, Swift...', 'HTML, CSS, Java...'];
+                    skills.style.opacity = 1;
+                    let index = 0;
 
-                typeText(intro,'https://demo.gadukov.nl',40,()=>{
-                    
-                function printNextSkill(){
-                    if(index<skillList.length){
-                        const li = document.createElement('li');
-                        skills.appendChild(li);
-                        typeText(li,skillList[index],30,()=>{
-                            index++;
-                            setTimeout(printNextSkill,300);
-                        });
-                    } else {
-                        setTimeout(()=>{
-                            typeText(contact,'>>>>>>>',40,()=>{
-                                typeText(footer,'© 2026 EGD ,40,()=>{
-                                    // add cursor
-                                    footer.appendChild(finalCursor);
-                                });
+                    function printNextSkill(){
+                        if(index < skillList.length){
+                            const li = document.createElement('li');
+                            skills.appendChild(li);
+                            typeText(li, skillList[index], 30, () => {
+                                index++;
+                                setTimeout(printNextSkill, 300);
                             });
-                        },300);
+                        } else {
+                            setTimeout(() => {
+                                typeText(contact, '>>>>>>>', 40, () => {
+                                    // Исправлена кавычка в тексте футера
+                                    typeText(footer, '© 2026 EGD', 40, () => {
+                                        footer.appendChild(finalCursor);
+                                    });
+                                });
+                            }, 300);
+                        }
                     }
-                }
-                printNextSkill();
+                    printNextSkill();
+                });
             });
         });
     });
