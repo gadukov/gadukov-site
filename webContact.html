@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EGD - Matrix Terminal</title>
+<title>EGD - Matrix</title>
 <style>
     html, body {
         margin: 0;
@@ -22,7 +22,7 @@
         z-index: 1;
     }
 
-    /* Эффект сканирующей линии (как на старом ТВ) */
+    /* Эффект сканирующей линии */
     body::after {
         content: " ";
         position: fixed;
@@ -48,34 +48,39 @@
         justify-content: center;
         height: 100%;
         text-align: center;
-        background: rgba(0, 0, 0, 0.7); /* Темная подложка для читаемости */
+        background: rgba(0, 0, 0, 0.7);
         backdrop-filter: blur(1px);
         padding: 20px;
     }
 
-    /* Скрываем всё до начала анимации */
     h1, h2, p, ul, footer, #link-container {
         opacity: 0;
-        margin: 5px 0;
+        margin: 8px 0;
     }
 
-    h1 { font-size: 3rem; text-shadow: 0 0 15px #00ff66; }
-    h2 { font-size: 1.2rem; color: rgba(0, 255, 102, 0.7); }
+    h1 { font-size: 3rem; text-shadow: 0 0 15px #00ff66; margin-bottom: 0; }
+    h2 { font-size: 1.1rem; color: rgba(0, 255, 102, 0.6); margin-top: 0; }
     ul { list-style: none; padding: 0; }
     li::before { content: "> "; }
 
-    a { 
+    #demo-link { 
         color: #00ff66; 
         text-decoration: none; 
         border: 1px solid #00ff66;
-        padding: 5px 10px;
-        transition: 0.3s;
+        padding: 8px 15px;
+        transition: all 0.4s ease;
         display: inline-block;
-        margin-top: 10px;
+        margin: 15px 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
     }
-    a:hover { 
-        background: #00ff66; 
-        color: #000; 
+    
+    /* Прикольный эффект наведения — красный "алерт" */
+    #demo-link:hover { 
+        background: #ff0033; 
+        color: #fff; 
+        border-color: #ff0033;
+        box-shadow: 0 0 20px #ff0033;
     }
 
     .cursor {
@@ -88,9 +93,7 @@
         vertical-align: middle;
     }
 
-    @keyframes blink {
-        50% { opacity: 0; }
-    }
+    @keyframes blink { 50% { opacity: 0; } }
 </style>
 </head>
 <body>
@@ -103,11 +106,11 @@
     <p id="intro"></p>
     <div id="link-container"><a id="demo-link" href="https://demo.gadukov.nl" target="_blank"></a></div>
     <ul id="skills"></ul>
+    <p id="phrase"></p>
     <footer id="footer"></footer>
 </div>
 
 <script>
-// --- МАТРИЦА ---
 const canvas = document.getElementById('matrix');
 const ctx = canvas.getContext('2d');
 
@@ -138,10 +141,10 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 40);
 
-// --- ПЕЧАТЬ ТЕКСТА ---
 function type(el, text, speed, callback) {
     el.style.opacity = 1;
     let i = 0;
+    el.textContent = ''; // Очистка перед началом
     const timer = setInterval(() => {
         el.textContent += text.charAt(i);
         i++;
@@ -159,37 +162,38 @@ window.onload = () => {
     const linkContainer = document.getElementById('link-container');
     const link = document.getElementById('demo-link');
     const skills = document.getElementById('skills');
+    const phrase = document.getElementById('phrase');
     const footer = document.getElementById('footer');
 
-    type(title, 'EGD', 150, () => {
-        type(subtitle, 'System Architect / Developer', 50, () => {
-            type(intro, 'Wake up, user... Explore the project:', 40, () => {
-                // Показываем контейнер со ссылкой и печатаем текст ВНУТРИ неё
-                linkContainer.style.opacity = 1;
-                type(link, 'HTTPS://DEMO.GADUKOV.NL', 50, () => {
-                    // После ссылки печатаем скиллы
-                    skills.style.opacity = 1;
-                    const items = ['Python & Django', 'Swift & iOS', 'Cybersecurity'];
-                    let current = 0;
+    type(title, 'EGD', 120, () => {
+        type(subtitle, 'Developer & Explorer', 60, () => {
+            type(intro, 'Wake up... The code has you.', 50, () => {
+                setTimeout(() => {
+                    linkContainer.style.opacity = 1;
+                    type(link, 'ACCESS DEMO SITE', 50, () => {
+                        skills.style.opacity = 1;
+                        const items = ['Python, Django, Swift...', 'HTML, CSS, Java...'];
+                        let current = 0;
 
-                    function nextSkill() {
-                        if (current < items.length) {
-                            const li = document.createElement('li');
-                            skills.appendChild(li);
-                            type(li, items[current], 40, () => {
-                                current++;
-                                setTimeout(nextSkill, 200);
-                            });
-                        } else {
-                            type(footer, '© 2026 EGD. All rights reserved.', 30, () => {
-                                const cursor = document.createElement('span');
-                                cursor.className = 'cursor';
-                                footer.appendChild(cursor);
-                            });
+                        function nextSkill() {
+                            if (current < items.length) {
+                                const li = document.createElement('li');
+                                skills.appendChild(li);
+                                type(li, items[current], 40, () => {
+                                    current++;
+                                    setTimeout(nextSkill, 300);
+                                });
+                            } else {
+                                type(footer, '© 2026 EGD', 40, () => {
+                                    const cursor = document.createElement('span');
+                                    cursor.className = 'cursor';
+                                    footer.appendChild(cursor);
+                                });
+                            }
                         }
-                    }
-                    nextSkill();
-                });
+                        nextSkill();
+                    });
+                }, 500);
             });
         });
     });
